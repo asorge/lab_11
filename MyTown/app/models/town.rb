@@ -1,5 +1,6 @@
 class Town < ActiveRecord::Base
-
+	before_validation :find_town_coordinates
+	
 	# Rels
 	has_many :attractions, dependent: :destroy
 
@@ -9,6 +10,9 @@ class Town < ActiveRecord::Base
 	scope :alphabetical, -> { order('name') }
 
 	STATES_LIST = [['Ohio', 'OH'],['Pennsylvania', 'PA'],['West Virginia', 'WV']]
+	
+	private
+
 	def find_town_coordinates
 	    coord = Geocoder.coordinates("#{name}, #{state}")
 	    if coord
@@ -20,7 +24,6 @@ class Town < ActiveRecord::Base
 	    coord
 	end
 
-	private
-	before_validation :find_town_coordinates
+	
 	
 end

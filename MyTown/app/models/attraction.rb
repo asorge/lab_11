@@ -1,13 +1,14 @@
 class Attraction < ActiveRecord::Base
+	before_validation :find_attraction_coordinates, :if => :street_changed?
+
 	# Rels
 	belongs_to :town
 
 	# Scopes
 	scope :alphabetical, -> { order('name') }
-	
-	
-	before_validation :find_attraction_coordinates, :if => :street_changed?
 
+
+	private
 	def find_attraction_coordinates
 		 coord = Geocoder.coordinates("#{street}, #{town.name}, #{town.state}")
 		 if coord
@@ -18,4 +19,5 @@ class Attraction < ActiveRecord::Base
 	    end
 	    coord
 	end
+
 end
