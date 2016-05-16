@@ -1,0 +1,3 @@
+  <%= f.input :name %>
+  <%= f.input :state, :collection => Town::STATES_LIST, :include_blank => true %>
+  <%= f.input :description, :input_html => { :rows => 4 } %>
