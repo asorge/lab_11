@@ -1,15 +1,26 @@
-<%= simple_form_for(@town) do |f| %>
-  <%= f.error_notification %>
+  <%= simple_nested_form_for @town, :html => { :class => 'form-horizontal' } do |town_form| %>
+    <div class="row">
+      <div class="span7">
+        <fieldset>
+          <legend><%= controller.action_name.capitalize %> Town</legend>
+          <%= render :partial => "town_fields", :locals => { :f => town_form } %>
+        </fieldset>
+      </div>
 
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :state %>
-    <%= f.input :description %>
-    <%= f.input :latitude %>
-    <%= f.input :longitude %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
-<% end %>
+    <div class="span5">
+      <legend>Attractions for this town</legend>
+        <div id="town_attractions">
+          <%= town_form.simple_fields_for :attractions do |attraction_form| %>
+            <%= render :partial => "attraction_fields", :locals => { :f => attraction_form } %>
+          <% end %> 
+          <p>
+            <br /><%= town_form.link_to_add("Add Attraction", :attractions, :class => 'button tiny') %>
+          </p>
+        </div> 
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= town_form.submit nil, :class => 'button radius' %>
+      <%= link_to 'Cancel', towns_path, :class => 'button secondary' %>
+    </div>
+  <% end %>

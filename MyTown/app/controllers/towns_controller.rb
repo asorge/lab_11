@@ -15,6 +15,7 @@ class TownsController < ApplicationController
   # GET /towns/new
   def new
     @town = Town.new
+    @town.attractions.build
   end
 
   # GET /towns/1/edit
@@ -69,6 +70,6 @@ class TownsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def town_params
-      params.require(:town).permit(:name, :state, :description, :latitude, :longitude)
+      params.require(:town).permit(:name, :state, :description, attractions_attributes: [:id, :name, :street, :_destroy])
     end
 end
