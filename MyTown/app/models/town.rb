@@ -1,8 +1,9 @@
 class Town < ActiveRecord::Base
-	accepts_nested_attributes_for :attractions, reject_if: lambda { |attraction| attraction[:name].blank? }, allow_destroy: true
 	
 	# Rels
 	has_many :attractions, dependent: :destroy
+
+	accepts_nested_attributes_for :attractions, reject_if: lambda { |attraction| attraction[:name].blank? }, allow_destroy: true
 
 	# Scopes
 	scope :alphabetical, -> { order('name') }
